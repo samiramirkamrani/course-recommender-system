@@ -5,9 +5,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import *
 import os
-from flask import Flask, render_template, request
-
-app = Flask(__name__)
 
 students = pd.read_excel(r'C:\Users\acer\Desktop\myrepo\data\students-performance.xlsx')
 courses = pd.read_excel(r'C:\Users\acer\Desktop\myrepo\data\computer-chart.xlsx')
@@ -80,17 +77,7 @@ def recommend_courses(student_id):
     return recommended_courses
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/recommendations', methods=['POST'])
-def recommendations():
-    student_id = request.form['student_id']
-    passed_courses = get_passed_courses(student_id)
-    gpa = calculate_gpa(student_id)
-    recommended_courses = recommend_courses(passed_courses, gpa)
-    return render_template('recommendations.html', student_id=student_id, recommended_courses=recommended_courses)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+student_id = input("Enter the student ID: ")
+student_id = int(student_id)
+recommended_courses = recommend_courses(student_id)
+print(f"Recommended courses for student {student_id}: {recommended_courses}")
